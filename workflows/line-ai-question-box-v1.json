@@ -1,5 +1,695 @@
 {
   "name": "LINE AI質問箱 v1",
-  "status": "export_pending",
-  "note": "n8n workflow export is pending. Do not include credential values."
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "line-ai-question-box",
+        "options": {}
+      },
+      "id": "7d4bfdfd-02bc-4452-b9f4-74238b5f66e9",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -688,
+        608
+      ],
+      "webhookId": "e05f266a-e82e-49f1-8ec3-a5de3934d86b"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c6d4d6fb-2f43-4e6c-87bc-0a545c6e71b6",
+              "name": "replyToken",
+              "type": "string",
+              "value": "={{ $json.body.events[0].replyToken }}"
+            },
+            {
+              "id": "de65afae-7f86-48e8-a7dd-9a49ff6b3894",
+              "name": "messageText",
+              "type": "string",
+              "value": "={{ $json.body.events[0].message.text }}"
+            },
+            {
+              "id": "ed888f49-147b-41ed-8476-61d8a86b3021",
+              "name": "userId",
+              "type": "string",
+              "value": "={{ $json.body.events[0].source.userId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "17b67eeb-964d-4ee7-9464-65a8f7ee88f5",
+      "name": "Extract LINE Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "af56c80d-7b7a-4a9f-a150-2fa4db84c56a",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "AI質問箱",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AI質問箱"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cd6f87d4-3b24-4f55-8816-1211f6076ecc",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "AI診断",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AI診断"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16d20f2c-c5c3-4fae-9d30-fa1c409e43e2",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "プロンプト",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "プロンプト"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "eb8a8846-8a9d-45db-adad-4e648c817379",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "AIルール",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AIルール"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "525ca88f-87f3-4052-869b-57acd1368522",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "今週まとめ",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "今週まとめ"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8794afe0-7b8c-4e75-ba9f-f64e72de408c",
+                    "leftValue": "={{ $json.messageText }}",
+                    "rightValue": "お知らせ",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "お知らせ"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "b3b7eb5f-46df-47ac-88bb-985f56b43f5c",
+      "name": "Keyword Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -240,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "585c3b65-424d-4ccd-9810-28629a3b2522",
+              "name": "replyText",
+              "type": "string",
+              "value": "AIについて分からないことを、このLINEにそのまま送ってください。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fda61bb8-64b0-4604-b1c6-c1d658b58341",
+      "name": "Reply - AI質問箱",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d851c075-dd50-46b4-87b2-554d21d44cdc",
+              "name": "replyText",
+              "type": "string",
+              "value": "AI導入5分診断はただいま準備中です。まずはAIについて気になることを、このLINEに送ってください。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0fd96345-6558-4c76-9be6-0554f26c07bf",
+      "name": "Reply - AI診断",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f77233ac-c05e-4954-9b56-91f59aee9807",
+              "name": "replyText",
+              "type": "string",
+              "value": "社長向けプロンプト集はただいま準備中です。準備ができ次第、このLINEでお知らせします。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1154496-76bd-49e8-988e-4c64eaee335a",
+      "name": "Reply - プロンプト",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "68f1b09d-526e-42b8-a05c-36e02b8342fe",
+              "name": "replyText",
+              "type": "string",
+              "value": "AI利用ルールひな形はただいま準備中です。社員にAIを使わせる前の注意点からお届け予定です。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7dd7088a-3386-43cc-b5df-246e33e1cf60",
+      "name": "Reply - AIルール",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aee1cd00-578b-4525-9191-e0996ae9bb24",
+              "name": "replyText",
+              "type": "string",
+              "value": "今週のまとめはただいま準備中です。配信開始後にこちらから確認できるようにします。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e35af00a-35a2-4a58-848c-9804b5afc30e",
+      "name": "Reply - 今週まとめ",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9020b20b-9671-4d45-9135-b47a5d30b981",
+              "name": "replyText",
+              "type": "string",
+              "value": "お知らせはただいま準備中です。無料勉強会や更新情報はこちらでご案内します。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3a63f5c-bae5-4a18-b477-3393f22d23b7",
+      "name": "Reply - お知らせ",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0a390065-47c6-4b7d-b8cb-0f3390da86a3",
+              "name": "systemPrompt",
+              "type": "string",
+              "value": "あなたは「成相AI朝活ラボ」のAI質問箱です。\n相手はAI初心者の経営者です。\n難しい専門用語を避けて、短く分かりやすく回答してください。\n\nルール：\n- 120文字以内\n- 2〜3文まで\n- まず結論から\n- 中小企業での使い方を1つだけ入れる\n- 過度な営業文にしない\n- 分からないことは断定しない\n- 最後の定型文は毎回入れない\n- 詳細が必要な場合だけ「必要なら具体的に聞いてください。」と添える"
+            },
+            {
+              "id": "3ebfcb60-30e8-4b5a-a9d4-b62209ad2f36",
+              "name": "userMessage",
+              "type": "string",
+              "value": "={{ $json.messageText }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae32380d-19a9-4419-b694-a29f3816dcb6",
+      "name": "Prepare OpenAI Prompt",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        912
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4o-mini', messages: [ { role: 'system', content: $json.systemPrompt }, { role: 'user', content: $json.userMessage } ] }) }}",
+        "options": {}
+      },
+      "id": "53eaf71b-c243-42c7-9704-97660526e1b1",
+      "name": "Call OpenAI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        912
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "PyvnkNsNCiItI56w",
+          "name": "OpenAI account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e26f064c-ebe1-4544-9d8d-fa3e8ebed183",
+              "name": "replyText",
+              "type": "string",
+              "value": "={{ $json.choices[0].message.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c981da64-119b-4bb6-972d-18c021db4698",
+      "name": "Format AI Reply",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ee94f8c-7067-4600-8315-a8dd59d24159",
+              "name": "replyText",
+              "type": "string",
+              "value": "すみません、ただいまAI回答の準備中です。少し時間をおいて再度お試しください。"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0a3d63f0-ada3-4c9b-95f3-a700a52c86c7",
+      "name": "Format Error Reply",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        992
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.line.me/v2/bot/message/reply",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ replyToken: $('Extract LINE Data').item.json.replyToken, messages: [ { type: 'text', text: $json.replyText } ] }) }}",
+        "options": {}
+      },
+      "id": "1c0c48b5-a432-40f6-8d82-024c5f83dc02",
+      "name": "Send LINE Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        768,
+        608
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "qmpoWsSRNFGtkElK",
+          "name": "LINE Messaging API - 成相AI朝活ラボ"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract LINE Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract LINE Data": {
+      "main": [
+        [
+          {
+            "node": "Keyword Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keyword Switch": {
+      "main": [
+        [
+          {
+            "node": "Reply - AI質問箱",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply - AI診断",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply - プロンプト",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply - AIルール",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply - 今週まとめ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply - お知らせ",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare OpenAI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - AI質問箱": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - AI診断": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - プロンプト": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - AIルール": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - 今週まとめ": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply - お知らせ": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare OpenAI Prompt": {
+      "main": [
+        [
+          {
+            "node": "Call OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Format AI Reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Error Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format AI Reply": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Reply": {
+      "main": [
+        [
+          {
+            "node": "Send LINE Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "4d0a7ce7-d9fc-4b8d-b2d3-f43e453e8f71",
+  "meta": {
+    "instanceId": "b6bbe212469f2fb2a42d3244055d258aa1963f306738b97e982997d2ced9c8f4"
+  },
+  "nodeGroups": [],
+  "id": "1a5EcuQh2BAJync1",
+  "tags": []
 }
