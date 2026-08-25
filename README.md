@@ -36,6 +36,12 @@ LINE Official Accountで、中小企業の経営者へAIの基礎を経営目線
 - `data/`: コンテンツ企画の元データ
 - `workflows/`: n8nワークフローの安全なJSONエクスポート
 
+## Operations documentation
+
+- [コンテンツ運用](docs/content-operations.md): 配信頻度、人間レビュー、本文重複管理
+- [スプレッドシート運用](docs/spreadsheet-operations.md): `AI顧問配信管理` の管理項目と運用
+- [AI質問箱運用](docs/ai-question-box-operations.md): 回答モデル、利用範囲、規模拡大時のガードレール
+
 ## Secret handling
 
 APIキー、LINE Channel Access Token、n8nの認証情報は絶対にコミットしません。ワークフローJSONにもcredential valuesを含めません。
