@@ -27,3 +27,11 @@
 ## Publish and test notes
 
 変更後はワークフローを保存・Publishし、LINEアプリから各キーワードと通常質問を送って確認する。JSONをエクスポートする前にcredential valuesが含まれないことを確認する。
+
+## LINE Scheduled Broadcast v1 — 運用メモ
+
+`LINE Scheduled Broadcast v1` は、将来のLINE公式アカウント向け自動配信に備えて作成した予約配信ワークフローである。現在は **未公開**、`dry_run=true`、Schedule Trigger未稼働の状態で保持する。DRY RUNの手動実行は成功しており、`dry_run=true` の場合はLINE Broadcast APIを呼び出さず、予定本文・日時・`message_id` のログだけを出力する。
+
+今回の10件はLINE公式管理画面で予約済みである。このため二重配信を防止するために、当該予約分にはこのn8nワークフローを使用しない。今回の予約配信がすべて完了するまで、Publish、`dry_run=false` への変更、Schedule Triggerの稼働を行ってはならない。
+
+ワークフローのcredential-free exportは `workflows/line-scheduled-broadcast-v1.json` に保存する。認証情報はn8nのCredentialまたは環境変数（`LINE_CHANNEL_ACCESS_TOKEN`）で管理し、トークン値・APIキー・Credential値をリポジトリに含めない。
